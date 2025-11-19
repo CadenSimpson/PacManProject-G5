@@ -12,7 +12,7 @@ def ghost(monkeypatch):
 
 
 @pytest.fixture
-def player():
+def pacman():
     class DummyPlayer:
         def __init__(self):
             self.x = 150
@@ -39,65 +39,65 @@ def test_ghost_initialization(ghost):
     assert not ghost.scared
 
 
-def test_ghost_movement_no_walls(ghost, player):
+def test_ghost_movement_no_walls(ghost, pacman):
     initial_x = ghost.x
     initial_y = ghost.y
 
     ghost.direction = "right"
-    ghost.move([], player)
+    ghost.move([], pacman)
     assert ghost.x == initial_x + ghost.speed
     assert ghost.y == initial_y
 
     ghost.direction = "left"
-    ghost.move([], player)
+    ghost.move([], pacman)
     assert ghost.x == initial_x  # moved left, back to start
     assert ghost.y == initial_y
 
 
-def test_ghost_collision_with_walls(ghost, walls, player):
+def test_ghost_collision_with_walls(ghost, walls, pacman):
     # Move into left wall
     ghost.x = 25
     ghost.y = 100
     ghost.direction = "left"
-    ghost.move(walls, player)
+    ghost.move(walls, pacman)
     assert ghost.x == 25  # should not move through wall
 
     # Move into small obstacle
     ghost.x = 190
     ghost.y = 210
     ghost.direction = "right"
-    ghost.move(walls, player)
+    ghost.move(walls, pacman)
     assert ghost.x == 190  # should stay due to collision
 
 
-def test_ghost_scared_timer(ghost, player):
+def test_ghost_scared_timer(ghost, pacman):
     ghost.scared = True
     ghost.scared_timer = 2
     ghost.direction = "right"
 
-    ghost.move([], player)
+    ghost.move([], pacman)
     assert ghost.scared_timer == 1
     assert ghost.scared  # still scared
 
-    ghost.move([], player)
+    ghost.move([], pacman)
     assert ghost.scared_timer == 0
     assert not ghost.scared  # should reset after timer ends
 
 
-def test_ghost_moves_toward_player(ghost, player, monkeypatch):
-    # Force random.random() to always be > 0.1 so ghost follows player
+def test_ghost_moves_toward_player(ghost, pacman, monkeypatch):
+    # Force random.random() to always be > 0.1 so ghost follows pacman
     monkeypatch.setattr(random, "random", lambda: 0.5)
     ghost.x = 100
     ghost.y = 100
 
-    # Player to the right
-    player.x = 200
-    player.y = 100
-    ghost.move([], player)
+    # Pacman to the right
+    pacman.x = 200
+    pacman.y = 100
+    ghost.move([], pacman)
     assert ghost.direction == "right"
 
-    # Player above
-    player.x = 100
-    player.y = 50
-    ghost.move([], player)
+    # Pacman above
+    pacman.x = 100
+    pacman.y = 50
+    ghost.move([], pacman)
     assert ghost.direction == "up"
