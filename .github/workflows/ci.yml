@@ -3,6 +3,7 @@ on:
   push:
     branches:
 		- main
+		- github_ci_pipeline
   pull_request:
     branches:
 		- main
