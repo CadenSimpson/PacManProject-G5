@@ -8,7 +8,6 @@ __pycache__/
 # Virtual Environment
 venv/
 
-.github/workflows/ci.yml
 
 test_ghost.py
 test_items.py
