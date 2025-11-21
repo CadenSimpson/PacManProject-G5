@@ -1,12 +1,9 @@
 name: Pipeline
 on:
   push:
-    branches:
-		- main
-		- github_ci_pipeline
+    branches: ["main"]
   pull_request:
-    branches:
-		- main
+    branches: ["main"]
 jobs:
   build:
     runs-on: ubuntu-latest
