@@ -8,6 +8,10 @@ __pycache__/
 # Virtual Environment
 venv/
 
+# Environment variables
+.env
+.env.*
+
 .github/workflows/ci.yml
 
 test_ghost.py
