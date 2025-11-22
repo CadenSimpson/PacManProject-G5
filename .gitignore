@@ -6,7 +6,10 @@ __pycache__/
 *.log
 
 # Virtual Environment
-venv/
+
+# Environment variables
+.env
+.env.*venv/
 
 .github/workflows/ci.yml
 
